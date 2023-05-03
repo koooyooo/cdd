@@ -21,6 +21,10 @@ var rootCmd = &cobra.Command{
 	Long:  ``,
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			listCmd.Run(cmd, args)
+			return
+		}
 		r := repo.Instance()
 		a, ok, err := r.Get(args[0])
 		if err != nil {
