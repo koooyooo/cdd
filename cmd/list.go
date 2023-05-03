@@ -6,8 +6,10 @@ package cmd
 import (
 	"fmt"
 	"github.com/koooyooo/cdd/repo"
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	"log"
+	"os"
 )
 
 // listCmd represents the list command
@@ -21,9 +23,13 @@ var listCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		table := tablewriter.NewWriter(os.Stdout)
+		table.SetBorder(false)
 		for i, a := range as {
-			fmt.Printf("- [%2d] %s\n", i, a.Name)
+			table.Append([]string{fmt.Sprintf("%3d", i), a.Name, a.Dir})
 		}
+		table.Render()
+
 	},
 }
 

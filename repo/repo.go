@@ -49,8 +49,9 @@ func (r *repoImpl) Init() error {
 		return err
 	}
 	r.cache = make([]*model.Alias, len(as))
-	for i, a := range as {
-		r.cache[i] = &a
+	for i, _ := range as {
+		//r.cache[i] = &a // iterator 一時変数のアドレスを取得するのは危険
+		r.cache[i] = &as[i]
 	}
 	return nil
 }
