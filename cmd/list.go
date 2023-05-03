@@ -1,0 +1,32 @@
+/*
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+*/
+package cmd
+
+import (
+	"fmt"
+	"github.com/koooyooo/cdd/repo"
+	"github.com/spf13/cobra"
+	"log"
+)
+
+// listCmd represents the list command
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "",
+	Long:  ``,
+	Run: func(cmd *cobra.Command, args []string) {
+		r := repo.Instance()
+		as, err := r.List()
+		if err != nil {
+			log.Fatal(err)
+		}
+		for i, a := range as {
+			fmt.Printf("- [%2d] %s\n", i, a.Name)
+		}
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(listCmd)
+}
