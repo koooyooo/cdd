@@ -10,20 +10,20 @@ import (
 )
 
 var once sync.Once
-var singleton repo
+var singleton Repo
 
-func Instance() repo {
+func Instance() Repo {
 	once.Do(func() {
 		r, err := newRepo()
 		if err != nil {
-			log.Fatalf("fail in loading repo: %v", err)
+			log.Fatalf("fail in loading Repo: %v", err)
 		}
 		singleton = r
 	})
 	return singleton
 }
 
-type repo interface {
+type Repo interface {
 	Init() error
 	List() ([]*model.Alias, error)
 	Get(name string) (*model.Alias, bool, error)
@@ -31,9 +31,9 @@ type repo interface {
 	Remove(name string) error
 }
 
-func newRepo() (repo, error) {
+func newRepo() (Repo, error) {
 	repo := new(repoImpl)
-	if err := repo.Init(); err != nil {
+	if err := repo.reload(); err != nil {
 		return nil, err
 	}
 	return repo, nil
@@ -44,6 +44,29 @@ type repoImpl struct {
 }
 
 func (r *repoImpl) Init() error {
+	defaultAliases := []model.Alias{
+		{
+			Name: "home",
+			Dir:  "${HOME}",
+		},
+		{
+			Name: "docs",
+			Dir:  "${HOME}/Documents",
+		},
+	}
+	return store(defaultAliases)
+}
+
+func (r *repoImpl) reload() error {
+	path, err := common.CDDPath()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if !common.Exists(path) {
+		if err := r.Init(); err != nil {
+			return err
+		}
+	}
 	as, err := load()
 	if err != nil {
 		return err
@@ -114,7 +137,7 @@ func store(as []model.Alias) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, b, 655)
+	return os.WriteFile(path, b, 0655)
 }
 
 func load() ([]model.Alias, error) {
