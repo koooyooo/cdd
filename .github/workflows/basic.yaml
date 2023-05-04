@@ -2,7 +2,8 @@ name: basic
 
 on:
   push:
-    branches: *
+    branches:
+      - "*"
 
 jobs:
   ci:
