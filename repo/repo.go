@@ -1,11 +1,11 @@
 package repo
 
 import (
+	"github.com/koooyooo/cdd/common"
 	"github.com/koooyooo/cdd/model"
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
-	"path/filepath"
 	"sync"
 )
 
@@ -110,7 +110,7 @@ func store(as []model.Alias) error {
 	if err != nil {
 		return err
 	}
-	path, err := cddPath()
+	path, err := common.CDDPath()
 	if err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func store(as []model.Alias) error {
 }
 
 func load() ([]model.Alias, error) {
-	path, err := cddPath()
+	path, err := common.CDDPath()
 	if err != nil {
 		return nil, err
 	}
@@ -131,12 +131,4 @@ func load() ([]model.Alias, error) {
 		return nil, err
 	}
 	return as, nil
-}
-
-func cddPath() (string, error) {
-	dir, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-	return filepath.Join(dir, ".cdd.yaml"), nil
 }

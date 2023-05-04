@@ -14,9 +14,10 @@ import (
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "",
-	Long:  ``,
+	Use:     "list",
+	Aliases: []string{"l"},
+	Short:   "",
+	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		r := repo.Instance()
 		as, err := r.List()

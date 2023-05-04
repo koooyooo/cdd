@@ -6,12 +6,12 @@ package cmd
 import (
 	"fmt"
 	"github.com/koooyooo/cdd/repo"
+	"github.com/spf13/cobra"
 	"log"
 	"os"
 	"os/exec"
 	"runtime"
-
-	"github.com/spf13/cobra"
+	"strconv"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -20,21 +20,56 @@ var rootCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	Args:  cobra.MaximumNArgs(1),
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		return []string{"hello", "world"}, cobra.ShellCompDirectiveFilterFileExt
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			listCmd.Run(cmd, args)
 			return
 		}
-		r := repo.Instance()
-		a, ok, err := r.Get(args[0])
+		tgt := args[0]
+		path, find, err := findPath(tgt)
 		if err != nil {
 			log.Fatal(err)
 		}
-		if !ok {
-			fmt.Printf("No alias found for :%s\n", args[0])
+		if !find {
+			fmt.Printf("no path found: %s\n", tgt)
+			return
 		}
-		cd(a.Dir)
+		cd(path)
 	},
+}
+
+func findPath(tgt string) (string, bool, error) {
+	r := repo.Instance()
+	a, foundByName, err := r.Get(tgt)
+	if err != nil {
+		return "", false, err
+	}
+	// name-based selection
+	if foundByName {
+		path, err := a.ReplacedDir()
+		if err != nil {
+			return "", false, err
+		}
+		return path, true, nil
+	}
+	// num-based selection
+	num, err := strconv.Atoi(tgt)
+	if err != nil {
+		return "", false, err
+	}
+	list, err := r.List()
+	if len(list) <= num {
+		return "", false, nil
+	}
+	path, err := list[num].ReplacedDir()
+	if err != nil {
+		return "", false, nil
+	}
+	return path, true, nil
+
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
