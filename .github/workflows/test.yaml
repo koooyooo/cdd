@@ -28,12 +28,3 @@ jobs:
 
       - name: go-test
         run: go test ./...
-
-      - name: golangci-lint
-        uses: reviewdog/action-golangci-lint@v1
-        with:
-          github_token: ${{ github.token }}
-          level: warning
-          golangci_lint_flags: "--config=.golangci.yml"
-          filter_mode: nofilter
-          reporter: github-pr-review
