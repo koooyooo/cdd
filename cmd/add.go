@@ -8,6 +8,7 @@ import (
 	"github.com/koooyooo/cdd/model"
 	"github.com/koooyooo/cdd/repo"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // addCmd represents the add command
@@ -24,10 +25,12 @@ var addCmd = &cobra.Command{
 		}
 		name := args[0]
 		dir := args[1]
-		repo.Instance().Add(&model.Alias{
+		if err := repo.Instance().Add(&model.Alias{
 			Name: name,
 			Dir:  dir,
-		})
+		}); err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
