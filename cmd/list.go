@@ -16,7 +16,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:     "list",
 	Aliases: []string{"l"},
-	Short:   "",
+	Short:   "list pre-added aliases",
 	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		r := repo.Instance()
