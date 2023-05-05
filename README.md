@@ -5,8 +5,19 @@
 [![test](https://github.com/koooyooo/cdd/actions/workflows/test.yaml/badge.svg)](https://github.com/koooyooo/cdd/actions/workflows/test.yaml)
 [![lint](https://github.com/koooyooo/cdd/actions/workflows/lint.yaml/badge.svg)](https://github.com/koooyooo/cdd/actions/workflows/lint.yaml)
 
-- `cdd` は事前登録したディレクトリにジャンプ可能な `cd`です。
-- ディレクトリに直接 `cd`することが可能です。
+- `cdd` は事前登録したディレクトリにジャンプ可能な `cd`です
+- 作業ディレクトリから遠く離れたディレクトリへの遷移が可能です
+- ただし遷移対象のディレクトリは事前の登録が必要です
+
+#### Before
+```bash
+$ cd ../../Documents/projects/cdd/chart
+```
+
+#### After
+```bash
+$ cdd chart
+```
 
 ## Install
 ```bash
@@ -38,7 +49,7 @@ $ cdd add dls "/Users/me/Downloads"
 ```bash
 $ cdd docs
 
-[me@mac]% pwd
+$ pwd
 /Users/me/Documents
 ```
 
@@ -46,7 +57,7 @@ $ cdd docs
 ```bash
 $ cdd 1
 
-[me@mac]% pwd
+$ pwd
 /Users/me/Documents
 ```
 
