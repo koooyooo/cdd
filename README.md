@@ -44,7 +44,7 @@ $ cdd docs
 
 `list` コマンドでリストアップされた際の番号を入力しても、同等の挙動になります。
 ```bash
-$ cdd 0
+$ cdd 1
 
 [me@mac]% pwd
 /Users/me/Documents
