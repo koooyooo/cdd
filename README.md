@@ -33,7 +33,7 @@ $ cdd list
 $ cdd add dls "/Users/me/Downloads"
 ```
 
-### `(default)`
+### `(alias-name)`
 `cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
 ```bash
 $ cdd docs
