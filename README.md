@@ -19,13 +19,21 @@ $ go install github.com/koooyooo/cdd@latest
 
 ### `list`
 登録された Aliasをリストアップします。
+- デフォルトで 2つのAliasが登録されています。
 ```bash
 $ cdd list
     0 | home | ${HOME}
     1 | docs | ${HOME}/Documents
 ```
 
-### `(change current dir)`
+### `add`
+新規に Aliasを登録します。
+フォーマットは `$ cdd add ${name} ${absolute-path}` 形式です。
+```bash
+$ cdd add dls "/Users/me/Downloads"
+```
+
+### `(default)`
 `cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
 ```bash
 $ cdd docs
@@ -42,9 +50,11 @@ $ cdd 0
 /Users/me/Documents
 ```
 
-### `add`
-新規に Aliasを登録します。
-フォーマットは `$ cdd add ${name} ${absolute-path}` 形式です。
-```bash
-$ cdd add dls "/Users/me/Downloads"
+## config
+`add`コマンド等で設定した Aliasは `${HOME}/.cdd.yaml` ファイルに保存されます。これを直接変更して Aliasの一覧を編集することも可能です。
+```yaml
+- name: home
+  dir: ${HOME}
+- name: docs
+  dir: ${HOME}/Documents
 ```
