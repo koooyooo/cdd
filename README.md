@@ -14,7 +14,7 @@ $ go install github.com/koooyooo/cdd@latest
 ```
 
 ## Usage
-`$ cdd {command}` の形式で各種コマンドを実行します
+`$ cdd {command}` の形式で各種コマンドを実行します。
 
 
 ### `list`
