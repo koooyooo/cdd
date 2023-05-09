@@ -63,6 +63,7 @@ $ pwd
 
 ## config
 `add`コマンド等で設定した Aliasは `${HOME}/.cdd.yaml` ファイルに保存されます。これを直接変更して Aliasの一覧を編集することも可能です。
+- `edit` コマンドで 編集することも可能です。(現状 win環境未対応)
 ```yaml
 - name: home
   dir: ${HOME}
