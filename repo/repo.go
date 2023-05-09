@@ -93,6 +93,16 @@ func (r *repoImpl) Get(name string) (*model.Alias, bool, error) {
 }
 
 func (r *repoImpl) Add(alias *model.Alias) error {
+	// 同名の既存削除
+	idx := -1
+	for i, a := range r.cache {
+		if a.Name == alias.Name {
+			idx = i
+		}
+	}
+	if idx != -1 {
+		r.cache = append(r.cache[:idx], r.cache[idx+1:]...)
+	}
 	r.cache = append(r.cache, alias)
 	raw, err := toRaw(r.cache)
 	if err != nil {

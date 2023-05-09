@@ -42,7 +42,12 @@ $ cdd list
 フォーマットは `$ cdd add ${name} ${absolute-path}` 形式です。
 ```bash
 $ cdd add dls "/Users/me/Downloads"
+
+# 変数を展開せずに指定する場合はシングルクオートを利用
+$ cdd add docs '${HOME}/Documents'
 ```
+
+
 
 ### `(alias-name)`
 `cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
