@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/koooyooo/cdd/common"
 	"github.com/koooyooo/cdd/model"
 	"github.com/koooyooo/cdd/repo"
 	"github.com/spf13/cobra"
@@ -25,6 +26,10 @@ var addCmd = &cobra.Command{
 		}
 		name := args[0]
 		dir := args[1]
+		dir, err := common.Replace4Store(dir)
+		if err != nil {
+			log.Fatal(err)
+		}
 		if err := repo.Instance().Add(&model.Alias{
 			Name: name,
 			Dir:  dir,

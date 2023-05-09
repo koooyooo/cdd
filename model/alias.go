@@ -8,5 +8,5 @@ type Alias struct {
 }
 
 func (a *Alias) ReplacedDir() (string, error) {
-	return common.Replace(a.Dir)
+	return common.Replace4Get(a.Dir)
 }
