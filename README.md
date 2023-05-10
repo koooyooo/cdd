@@ -78,6 +78,25 @@ $ cdd remove dls
 ```
 > Note: `{name}` 部分は `list` コマンドで表示される番号でも指定可能)
 
+#### `up`
+既存の Aliasの順序を引き上げます。
+フォーマットは `$ cdd up ${name}` 形式です。
+```bash
+$ cdd up dls
+
+# 2行分 up
+$ cdd up dls 2
+```
+
+#### `down`
+既存の Aliasの順序を引き下げます。
+フォーマットは `$ cdd down ${name}` 形式です。
+```bash
+$ cdd down dls
+
+# 2行分 down
+$ cdd down dls 2
+```
 
 #### `edit`
 設定ファイルを既定のエディタで開きます。
