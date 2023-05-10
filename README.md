@@ -27,8 +27,24 @@ $ go install github.com/koooyooo/cdd@latest
 ## Usage
 `$ cdd {command}` の形式で各種コマンドを実行します。
 
+### Sub Commands
+#### `(alias-name)`
+`cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
+```bash
+$ cdd docs
 
-### `list`
+$ pwd
+/Users/me/Documents
+```
+
+`list` コマンドでリストアップされた際の番号を入力しても、同等の挙動になります。
+```bash
+$ cdd 1
+
+$ pwd
+/Users/me/Documents
+```
+#### `list`
 登録された Aliasをリストアップします。
 - デフォルトで 2つのAliasが登録されています。
 ```bash
@@ -37,7 +53,7 @@ $ cdd list
     1 | docs | ${HOME}/Documents
 ```
 
-### `add`
+#### `add`
 新規に Aliasを登録します。
 フォーマットは `$ cdd add ${name} ${absolute-path}` 形式です。
 ```bash
@@ -54,7 +70,7 @@ $ cdd add dls "/Users/me/Downloads"
 > $ cdd add docs '${HOME}/Documents'
 > ```
 
-### `remove` `rm`
+#### `remove` `rm`
 既存の Aliasを削除します。
 フォーマットは `$ cdd remove ${name}` 形式です。
 ```bash
@@ -62,21 +78,11 @@ $ cdd remove dls
 ```
 > Note: `{name}` 部分は `list` コマンドで表示される番号でも指定可能)
 
-### `(alias-name)`
-`cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
+
+#### `edit`
+設定ファイルを既定のエディタで開きます。
 ```bash
-$ cdd docs
-
-$ pwd
-/Users/me/Documents
-```
-
-`list` コマンドでリストアップされた際の番号を入力しても、同等の挙動になります。
-```bash
-$ cdd 1
-
-$ pwd
-/Users/me/Documents
+$ cdd edit
 ```
 
 ## config
