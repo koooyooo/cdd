@@ -30,7 +30,7 @@ var editCmd = &cobra.Command{
 			cArgs = filepath.Join(hd, ".cdd.yaml")
 		case "windows":
 			cName = "cmd"
-			cArgs = "/c start notpad.exe .cdd.yaml"
+			cArgs = "/c start notepad.exe .cdd.yaml"
 		}
 		c := exec.Command(cName, cArgs) // mac can also use 'open'
 		c.Stdin = os.Stdin
