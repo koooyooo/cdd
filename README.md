@@ -79,7 +79,7 @@ $ cdd remove dls
 > Note: `{name}` 部分は `list` コマンドで表示される番号でも指定可能)
 
 #### `up`
-既存の Aliasの順序を引き上げます。
+`list` 表示における指定 Aliasの順序を引き上げます。
 フォーマットは `$ cdd up ${name}` 形式です。
 ```bash
 $ cdd up dls
@@ -89,7 +89,7 @@ $ cdd up dls 2
 ```
 
 #### `down`
-既存の Aliasの順序を引き下げます。
+`list` 表示における指定 Aliasの順序を引き下げます。
 フォーマットは `$ cdd down ${name}` 形式です。
 ```bash
 $ cdd down dls
@@ -100,6 +100,7 @@ $ cdd down dls 2
 
 #### `edit`
 設定ファイルを既定のエディタで開きます。
+後述の `config` ファイルを編集する際のショートカットとして利用できます。
 ```bash
 $ cdd edit
 ```
