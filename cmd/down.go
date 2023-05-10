@@ -13,9 +13,10 @@ import (
 
 // downCmd represents the down command
 var downCmd = &cobra.Command{
-	Use:   "down",
-	Short: "",
-	Long:  ``,
+	Use:     "down",
+	Short:   "make specified alias to be lower on the list",
+	Long:    ``,
+	Example: "$ cdd down github\n$ cdd down github 2",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 || len(args) > 2 {
 			fmt.Println(cmd.UsageString())

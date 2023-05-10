@@ -13,9 +13,10 @@ import (
 
 // upCmd represents the up command
 var upCmd = &cobra.Command{
-	Use:   "up",
-	Short: "",
-	Long:  ``,
+	Use:     "up",
+	Short:   "make specified alias to be upper on the list",
+	Long:    ``,
+	Example: "$ cdd up github\n$ cdd up github 2",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 || len(args) > 2 {
 			fmt.Println(cmd.UsageString())

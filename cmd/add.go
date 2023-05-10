@@ -18,7 +18,8 @@ var addCmd = &cobra.Command{
 	Aliases: []string{"a"},
 	Short:   "add new alias: $ cdd add {name} {dir-path}",
 	Long:    ``,
-	Example: "cdd add github ${HOME}/github",
+	Example: `$ cdd add github  ${HOME}/github  # allow shell expansion of ${HOME}
+$ cdd add github '${HOME}/github' # deny  shell expansion of ${HOME}`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
 			fmt.Println(cmd.UsageString())
