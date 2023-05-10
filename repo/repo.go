@@ -132,41 +132,6 @@ func (r *repoImpl) Remove(name string) error {
 	return nil
 }
 
-//func (r *repoImpl) Up(name string, num int) error {
-//	idx := -1
-//	for i, a := range r.cache {
-//		if a.Name == name {
-//			idx = i
-//		}
-//	}
-//	if idx == -1 {
-//		if len(r.cache) <= num {
-//			return nil
-//		}
-//		var err error
-//		idx, err = strconv.Atoi(name)
-//		if err != nil {
-//			return nil
-//		}
-//	}
-//	for i := idx; i > 0; i-- {
-//		if num == 0 {
-//			break
-//		}
-//		r.cache[i], r.cache[i-1] = r.cache[i-1], r.cache[i]
-//		num--
-//	}
-//	raw, err := toRaw(r.cache)
-//	if err != nil {
-//		return err
-//	}
-//	return store(raw)
-//}
-//
-//func (r *repoImpl) Down(name string, num int) error {
-//	return nil // TODO implement
-//}
-
 func (r *repoImpl) Move(name string, num int) error {
 	idx := -1
 	for i, a := range r.cache {
