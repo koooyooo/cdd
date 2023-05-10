@@ -14,9 +14,10 @@ import (
 
 // editCmd represents the edit command
 var editCmd = &cobra.Command{
-	Use:   "edit",
-	Short: "edit .cdd.yaml directly",
-	Long:  ``,
+	Use:     "edit",
+	Short:   "edit .cdd.yaml directly",
+	Long:    ``,
+	Example: `$ cdd edit`,
 	Run: func(cmd *cobra.Command, args []string) {
 		hd, err := os.UserHomeDir()
 		if err != nil {

@@ -13,7 +13,7 @@ import (
 
 // upCmd represents the up command
 var upCmd = &cobra.Command{
-	Use:     "up",
+	Use:     "up name [amount]",
 	Short:   "make specified alias to be upper on the list",
 	Long:    ``,
 	Example: "$ cdd up github\n$ cdd up github 2",

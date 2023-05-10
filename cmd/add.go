@@ -14,7 +14,7 @@ import (
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:     "add",
+	Use:     "add name absolute-path",
 	Aliases: []string{"a"},
 	Short:   "add new alias: $ cdd add {name} {dir-path}",
 	Long:    ``,

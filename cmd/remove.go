@@ -15,10 +15,11 @@ import (
 
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
-	Use:     "remove",
+	Use:     "remove { name | num }",
 	Short:   "remove specified alias",
 	Long:    ``,
 	Aliases: []string{"rm", "delete", "del"},
+	Example: `$ cdd remove home`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
 			fmt.Println(cmd.UsageString())

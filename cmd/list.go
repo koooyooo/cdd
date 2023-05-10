@@ -18,6 +18,7 @@ var listCmd = &cobra.Command{
 	Aliases: []string{"l"},
 	Short:   "list pre-added aliases",
 	Long:    ``,
+	Example: `$ cdd list\n$ cdd l`,
 	Run: func(cmd *cobra.Command, args []string) {
 		r := repo.Instance()
 		as, err := r.List()

@@ -13,7 +13,7 @@ import (
 
 // downCmd represents the down command
 var downCmd = &cobra.Command{
-	Use:     "down",
+	Use:     "down name [amount]",
 	Short:   "make specified alias to be lower on the list",
 	Long:    ``,
 	Example: "$ cdd down github\n$ cdd down github 2",
