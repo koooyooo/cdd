@@ -22,12 +22,14 @@ var editCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		cName, cArgs := "vim", filepath.Join(hd, ".cdd.yaml")
+		var cName, cArgs string
 		switch runtime.GOOS {
 		case "darwin", "linux", "freebsd":
-			// default
+			cName = "vim"
+			cArgs = filepath.Join(hd, ".cdd.yaml")
 		case "windows":
-			// TODO
+			cName = "cmd"
+			cArgs = "/c start notpad.exe .cdd.yaml"
 		}
 		c := exec.Command(cName, cArgs) // mac can also use 'open'
 		c.Stdin = os.Stdin
