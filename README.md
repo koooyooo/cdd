@@ -54,6 +54,14 @@ $ cdd add dls "/Users/me/Downloads"
 > $ cdd add docs '${HOME}/Documents'
 > ```
 
+### `remove` `rm`
+既存の Aliasを削除します。
+フォーマットは `$ cdd remove ${name}` 形式です。
+```bash
+$ cdd remove dls
+```
+> Note: `{name}` 部分は `list` コマンドで表示される番号でも指定可能)
+
 ### `(alias-name)`
 `cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
 ```bash
