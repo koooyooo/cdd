@@ -55,17 +55,22 @@ $ cdd list
 
 #### `add`
 新規に Aliasを登録します。
-フォーマットは `$ cdd add ${name} ${absolute-path}` 形式です。
+フォーマットは `$ cdd add ${name} ${path}` 形式です。
+- `${path}` 部分には絶対パス、相対パスの双方が利用可能です。
 ```bash
 $ cdd add dls "/Users/me/Downloads"
 ```
 
-> Note: 
-> - `${absolute-path}` 部分はスペースを含まなければ " " で囲む必要はありません
+> Note:
+> - `${path}` 部分に `.`を指定するとカレントディレクトリを指定できます
+> ```bash
+> $ cdd add dls .
+> ```
+> - `${path}` 部分はスペースを含まなければ " " で囲む必要はありません
 > ```bash
 > $ cdd add dls /Users/me/Downloads
 > ```
-> - `${absolute-path}` 部分に${HOME}を指定する場合は ' 'で囲みシェル展開を防ぎます
+> - `${path}` 部分に${HOME}を指定する場合は ' 'で囲みシェル展開を防ぎます
 > ```bash
 > $ cdd add docs '${HOME}/Documents'
 > ```
