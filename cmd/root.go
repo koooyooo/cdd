@@ -37,8 +37,26 @@ var rootCmd = &cobra.Command{
 			fmt.Printf("no path found: %s\n", tgt)
 			return
 		}
+		if err := handleOpenOpt(cmd, path); err != nil {
+			log.Fatalf("fail in handling open option: %v\n", err)
+		}
 		cd(path)
 	},
+}
+
+func handleOpenOpt(cmd *cobra.Command, path string) error {
+	open, err := cmd.Flags().GetBool("open")
+	if err != nil {
+		return err
+	}
+	if !open {
+		return nil
+	}
+	cmdStr, args, err := openCommandStr(path)
+	if err != nil {
+		return err
+	}
+	return exec.Command(cmdStr, args...).Run()
 }
 
 func findPath(tgt string) (string, bool, error) {
@@ -83,6 +101,7 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().BoolP("open", "o", false, "Open Window after cde")
 }
 
 func cd(path string) {
@@ -105,4 +124,17 @@ func detectShell() string {
 		return os.Getenv("COMSPEC")
 	}
 	return "/bin/sh"
+}
+
+func openCommandStr(path string) (string, []string, error) {
+	os := runtime.GOOS
+	switch os {
+	case "darwin":
+		return "open", []string{path}, nil
+	case "windows":
+		return "start", []string{path}, nil
+	case "linux":
+		return "xdg-open", []string{path}, nil
+	}
+	return "", nil, fmt.Errorf("unsupported os: %s\n", os)
 }
