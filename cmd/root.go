@@ -113,6 +113,9 @@ func cd(path string) {
 	if err := cmd.Run(); err != nil {
 		log.Fatal(err)
 	}
+	if err := exec.Command("reset").Run(); err != nil {
+		log.Fatal(err)
+	} // TODO
 }
 
 func detectShell() string {
