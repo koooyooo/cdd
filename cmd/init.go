@@ -11,29 +11,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const shellHook = `
-cdd() {
-  if [ $# -eq 0 ]; then
-    command cdd
-    return
-  fi
-  case "$1" in
-    list|l|add|a|remove|rm|delete|del|up|down|edit|print|p|init|help|-h|--help)
-      command cdd "$@"
-      return
-      ;;
-  esac
-  dir="$(command cdd print "$@")" || return
-  builtin cd -- "$dir"
-}
-`
-
 var initCmd = &cobra.Command{
 	Use:   "init {bash|zsh}",
 	Short: "print shell integration code for bash or zsh",
 	Long: `Print shell integration that wraps cdd so alias jumps use builtin cd.
+The script also completes alias names and subcommands.
 
-Add this to your shell rc (example for zsh):
+Add this to your shell rc (example for zsh, after compinit):
 
   eval "$(cdd init zsh)"
 
@@ -43,14 +27,12 @@ $ cdd init zsh   # interactive: optionally copy eval line to clipboard`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		shell := args[0]
-		switch shell {
-		case "bash", "zsh":
-		default:
-			fmt.Fprintf(os.Stderr, "unsupported shell: %s (use bash or zsh)\n", shell)
+		script, err := shellIntegration(shell)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s (use bash or zsh)\n", err.Error())
 			os.Exit(1)
 		}
-
-		fmt.Print(strings.TrimPrefix(shellHook, "\n"))
+		fmt.Print(script)
 
 		if !stdoutIsTTY() {
 			return
