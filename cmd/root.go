@@ -5,43 +5,37 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/koooyooo/cdd/repo"
-	"github.com/spf13/cobra"
-	"log"
 	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
+
+	"github.com/koooyooo/cdd/repo"
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "cdd",
-	Short: "",
+	Short: "Jump to bookmarked directories (use shell integration for cd)",
 	Long:  ``,
-	Args:  cobra.MaximumNArgs(1),
-	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
-		return []string{"hello", "world"}, cobra.ShellCompDirectiveFilterFileExt
-	},
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 {
-			listCmd.Run(cmd, args)
-			return
-		}
-		tgt := args[0]
-		path, find, err := findPath(tgt)
-		if err != nil {
-			log.Fatal(err)
-		}
-		if !find {
-			fmt.Printf("no path found: %s\n", tgt)
-			return
-		}
-		if err := handleOpenOpt(cmd, path); err != nil {
-			log.Fatalf("fail in handling open option: %v\n", err)
-		}
-		cd(path)
+		_ = cmd.Help()
 	},
+}
+
+// Execute adds all child commands to the root command and sets flags appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() {
+	err := rootCmd.Execute()
+	if err != nil {
+		os.Exit(1)
+	}
+}
+
+func init() {
+	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func handleOpenOpt(cmd *cobra.Command, path string) error {
@@ -60,7 +54,10 @@ func handleOpenOpt(cmd *cobra.Command, path string) error {
 }
 
 func findPath(tgt string) (string, bool, error) {
-	r := repo.Instance()
+	return findPathWithRepo(repo.Instance(), tgt)
+}
+
+func findPathWithRepo(r repo.Repo, tgt string) (string, bool, error) {
 	a, foundByName, err := r.Get(tgt)
 	if err != nil {
 		return "", false, err
@@ -76,62 +73,24 @@ func findPath(tgt string) (string, bool, error) {
 	// num-based selection
 	num, err := strconv.Atoi(tgt)
 	if err != nil {
-		return "", false, err
+		return "", false, nil
 	}
 	list, err := r.List()
-	if len(list) <= num {
+	if err != nil {
+		return "", false, err
+	}
+	if len(list) <= num || num < 0 {
 		return "", false, nil
 	}
 	path, err := list[num].ReplacedDir()
 	if err != nil {
-		return "", false, nil
+		return "", false, err
 	}
 	return path, true, nil
-
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-}
-
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.Flags().BoolP("open", "o", false, "Open Window after cde")
-}
-
-func cd(path string) {
-	cmd := exec.Command(detectShell())
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Dir = path
-	if err := cmd.Run(); err != nil {
-		log.Fatal(err)
-	}
-	if err := exec.Command("reset").Run(); err != nil {
-		log.Fatal(err)
-	} // TODO
-}
-
-func detectShell() string {
-	shell := os.Getenv("SHELL")
-	if shell != "" {
-		return shell
-	}
-	if runtime.GOOS == "windows" {
-		return os.Getenv("COMSPEC")
-	}
-	return "/bin/sh"
 }
 
 func openCommandStr(path string) (string, []string, error) {
-	os := runtime.GOOS
-	switch os {
+	switch runtime.GOOS {
 	case "darwin":
 		return "open", []string{path}, nil
 	case "windows":
@@ -139,5 +98,5 @@ func openCommandStr(path string) (string, []string, error) {
 	case "linux":
 		return "xdg-open", []string{path}, nil
 	}
-	return "", nil, fmt.Errorf("unsupported os: %s\n", os)
+	return "", nil, fmt.Errorf("unsupported os: %s", runtime.GOOS)
 }

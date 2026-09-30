@@ -8,6 +8,7 @@
 - `cdd` は事前登録したディレクトリにジャンプ可能な `cd`です
 - 作業ディレクトリから遠く離れたディレクトリへの遷移が可能です
 - ただし遷移対象のディレクトリは事前の登録が必要です
+- パス解決は `cdd` バイナリ、実際の移動はシェルの `cd` に任せます（シェル連携が必要です）
 
 #### Before
 ```bash
@@ -24,12 +25,25 @@ $ cdd chart
 $ go install github.com/koooyooo/cdd@latest
 ```
 
+シェル連携を有効にします（zsh の例）:
+
+```bash
+# 対話: 関数定義を表示し、Y なら eval 行をクリップボードへコピー → rc に貼り付け
+$ cdd init zsh
+
+# または rc に直接追記
+$ echo 'eval "$(cdd init zsh)"' >> ~/.zshrc
+```
+
+bash の場合は `cdd init bash` / `~/.bashrc` を使います。
+
 ## Usage
 `$ cdd {command}` の形式で各種コマンドを実行します。
+引数なしの `cdd` はコマンド一覧（ヘルプ）を表示します。
 
 ### Sub Commands
-#### `(alias-name)`
-`cdd` コマンドに Aliasの名前を渡すことにより、対象のディレクトリにジャンプできます。
+#### `(alias-name)`（シェル連携時）
+シェル連携後、`cdd` に Alias の名前を渡すと対象ディレクトリへ `cd` します。
 ```bash
 $ cdd docs
 
@@ -37,13 +51,31 @@ $ pwd
 /Users/me/Documents
 ```
 
-`list` コマンドでリストアップされた際の番号を入力しても、同等の挙動になります。
+`list` で表示される番号でも同等です。
 ```bash
 $ cdd 1
 
 $ pwd
 /Users/me/Documents
 ```
+
+#### `print` `p`
+Alias 名・番号を絶対パスに解決して stdout に出します。シェル連携やスクリプトから利用します。
+```bash
+$ cdd print docs
+/Users/me/Documents
+
+$ cd "$(cdd print docs)"
+```
+
+#### `init`
+bash / zsh 向けのシェル連携コードを stdout に出力します。
+stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
+```bash
+$ eval "$(cdd init zsh)"
+$ cdd init zsh
+```
+
 #### `list`
 登録された Aliasをリストアップします。
 - デフォルトで 2つのAliasが登録されています。
