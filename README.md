@@ -73,7 +73,7 @@ $ pwd
 | `list` | — | List registered aliases |
 | `add` | — | Add an alias |
 | `remove` | `rm` | Remove an alias |
-| `up` / `down` | — | Reorder aliases in the list |
+| `move-up` / `move-down` | `up` / `down` | Reorder aliases in the list |
 | `edit` | — | Open the config file in your editor |
 
 #### `print` / `p`
@@ -89,7 +89,7 @@ $ cd "$(cdd print docs)"
 
 #### `init`
 
-Print bash/zsh shell integration to stdout. Besides the jump function, it registers completion for alias names and subcommands. The argument after `remove`, `up`, `down`, and `print` completes as an alias name; the argument after `init` completes as `bash` or `zsh`; the path argument to `add` completes as a filename. When stdout is a TTY, you are prompted (Y/n) to copy the `eval "$(cdd init …)"` line to the clipboard for pasting into your rc file.
+Print bash/zsh shell integration to stdout. Besides the jump function, it registers completion for alias names and subcommands. The argument after `remove`, `move-up`, `move-down`, and `print` completes as an alias name; the argument after `init` completes as `bash` or `zsh`; the path argument to `add` completes as a filename. When stdout is a TTY, you are prompted (Y/n) to copy the `eval "$(cdd init …)"` line to the clipboard for pasting into your rc file.
 
 ```bash
 $ eval "$(cdd init zsh)"
@@ -124,14 +124,14 @@ Remove an alias with `$ cdd remove <name>`. You can also use a `list` index.
 $ cdd remove dls
 ```
 
-#### `up` / `down`
+#### `move-up` / `move-down`
 
-Move an alias up or down in the list. Defaults to one step; pass a second argument for the distance.
+Move an alias up or down in the list. Defaults to one step; pass a second argument for the distance. `up` / `down` remain as aliases.
 
 ```bash
-$ cdd up dls
-$ cdd up dls 2
-$ cdd down dls 2
+$ cdd move-up dls
+$ cdd move-up dls 2
+$ cdd move-down dls 2
 ```
 
 #### `edit`

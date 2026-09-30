@@ -85,6 +85,16 @@ func TestBashCompletionCandidates(t *testing.T) {
 		assert.Equal(t, []string{"docs", "delete", "del", "down"}, got)
 	})
 
+	t.Run("move-up prefix", func(t *testing.T) {
+		got := candidates(t, "COMP_WORDS=(cdd move)\nCOMP_CWORD=1")
+		assert.Equal(t, []string{"move-up", "move-down"}, got)
+	})
+
+	t.Run("move-up argument", func(t *testing.T) {
+		got := candidates(t, "COMP_WORDS=(cdd move-up '')\nCOMP_CWORD=2")
+		assert.Equal(t, []string{"home", "docs", "my docs"}, got)
+	})
+
 	t.Run("alias with space", func(t *testing.T) {
 		got := candidates(t, "COMP_WORDS=(cdd my)\nCOMP_CWORD=1")
 		assert.Equal(t, []string{"my docs"}, got)

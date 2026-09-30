@@ -9,7 +9,7 @@ AI コーディングエージェント向けのリポジトリガイドです�
 ## Project structure
 
 - `main.go` — エントリポイント。`cmd.Execute()` を呼ぶだけ
-- `cmd/` — Cobra サブコマンド（`add` / `list` / `remove` / `up` / `down` / `edit` / `print` / `init`）。ルートはヘルプのみ
+- `cmd/` — Cobra サブコマンド（`add` / `list` / `remove` / `move-up` / `move-down` / `edit` / `print` / `init`）。ルートはヘルプのみ。`up` / `down` は互換エイリアス
 - `model/` — `Alias`（`name` / `dir`）とパス展開
 - `repo/` — `.cdd.yaml` の読み書きとインメモリキャッシュ（シングルトン）
 - `common/` — パス解決・`${HOME}` 置換・ファイル存在確認

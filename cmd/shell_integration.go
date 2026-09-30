@@ -10,7 +10,7 @@ var completionCommandWords = []string{
 	"list", "l",
 	"add", "a",
 	"remove", "rm", "delete", "del",
-	"up", "down",
+	"move-up", "up", "move-down", "down",
 	"edit",
 	"print", "p",
 	"init",
@@ -22,7 +22,7 @@ var completionCommandWords = []string{
 // aliasArgWords take an alias name as the next argument.
 var aliasArgWords = []string{
 	"remove", "rm", "delete", "del",
-	"up", "down",
+	"move-up", "up", "move-down", "down",
 	"print", "p",
 }
 
