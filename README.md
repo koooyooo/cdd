@@ -2,65 +2,75 @@
 
 # cdd
 
+**English** | [日本語](./README_JA.md)
+
 [![test](https://github.com/koooyooo/cdd/actions/workflows/test.yaml/badge.svg)](https://github.com/koooyooo/cdd/actions/workflows/test.yaml)
 [![lint](https://github.com/koooyooo/cdd/actions/workflows/lint.yaml/badge.svg)](https://github.com/koooyooo/cdd/actions/workflows/lint.yaml)
 
-- `cdd` は事前登録したディレクトリにジャンプ可能な `cd`です
-- 作業ディレクトリから遠く離れたディレクトリへの遷移が可能です
-- ただし遷移対象のディレクトリは事前の登録が必要です
-- パス解決は `cdd` バイナリ、実際の移動はシェルの `cd` に任せます（シェル連携が必要です）
+Jump to bookmarked directories with short aliases — a smarter `cd`.
 
-#### Before
+Reach deep paths by name or index. The `cdd` binary resolves the path; your shell’s `builtin cd` does the move (shell integration required).
+
 ```bash
+# Before
 $ cd ../../Documents/projects/cdd/chart
-```
 
-#### After
-```bash
+# After
 $ cdd chart
 ```
 
 ## Install
-```bash
-$ go install github.com/koooyooo/cdd@latest
-```
-
-シェル連携を有効にします（zsh の例）:
 
 ```bash
-# 対話: 関数定義を表示し、Y なら eval 行をクリップボードへコピー → rc に貼り付け
-$ cdd init zsh
-
-# または rc に直接追記
-$ echo 'eval "$(cdd init zsh)"' >> ~/.zshrc
+go install github.com/koooyooo/cdd@latest
 ```
 
-bash の場合は `cdd init bash` / `~/.bashrc` を使います。
+Enable shell integration (zsh example):
+
+```bash
+# Interactive: prints the hook and optionally copies the eval line to the clipboard
+cdd init zsh
+
+# Or append to your rc file
+echo 'eval "$(cdd init zsh)"' >> ~/.zshrc
+```
+
+For bash, use `cdd init bash` and `~/.bashrc`.
 
 ## Usage
-`$ cdd {command}` の形式で各種コマンドを実行します。
-引数なしの `cdd` はコマンド一覧（ヘルプ）を表示します。
 
-### Sub Commands
-#### `(alias-name)`（シェル連携時）
-シェル連携後、`cdd` に Alias の名前を渡すと対象ディレクトリへ `cd` します。
+Run `$ cdd {command}`. With no arguments, `cdd` prints help.
+
+### Jump (with shell integration)
+
+Pass an alias name or a `list` index to `cd` into that directory.
+
 ```bash
 $ cdd docs
-
 $ pwd
 /Users/me/Documents
-```
 
-`list` で表示される番号でも同等です。
-```bash
 $ cdd 1
-
 $ pwd
 /Users/me/Documents
 ```
 
-#### `print` `p`
-Alias 名・番号を絶対パスに解決して stdout に出します。シェル連携やスクリプトから利用します。
+### Commands
+
+| Command | Alias | Description |
+| --- | --- | --- |
+| `print` | `p` | Resolve an alias to an absolute path on stdout |
+| `init` | — | Print shell integration for bash or zsh |
+| `list` | — | List registered aliases |
+| `add` | — | Add an alias |
+| `remove` | `rm` | Remove an alias |
+| `up` / `down` | — | Reorder aliases in the list |
+| `edit` | — | Open the config file in your editor |
+
+#### `print` / `p`
+
+Resolve an alias name or index to an absolute path. Used by shell integration and scripts.
+
 ```bash
 $ cdd print docs
 /Users/me/Documents
@@ -69,16 +79,18 @@ $ cd "$(cdd print docs)"
 ```
 
 #### `init`
-bash / zsh 向けのシェル連携コードを stdout に出力します。
-stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
+
+Print bash/zsh shell integration to stdout. When stdout is a TTY, you are prompted to copy the `eval "$(cdd init …)"` line to the clipboard for pasting into your rc file.
+
 ```bash
 $ eval "$(cdd init zsh)"
 $ cdd init zsh
 ```
 
 #### `list`
-登録された Aliasをリストアップします。
-- デフォルトで 2つのAliasが登録されています。
+
+List registered aliases. On first run, `home` and `docs` are registered by default.
+
 ```bash
 $ cdd list
     0 | home | ${HOME}
@@ -86,65 +98,45 @@ $ cdd list
 ```
 
 #### `add`
-新規に Aliasを登録します。
-フォーマットは `$ cdd add ${name} ${path}` 形式です。
-- `${path}` 部分には絶対パス、相対パスの双方が利用可能です。
+
+Register an alias with `$ cdd add <name> <path>`. `<path>` may be absolute or relative.
+
 ```bash
-$ cdd add dls "/Users/me/Downloads"
+$ cdd add dls /Users/me/Downloads
+$ cdd add dls .                          # current directory
+$ cdd add docs '${HOME}/Documents'       # quote ${HOME} to prevent shell expansion
 ```
 
-> Note:
-> - `${path}` 部分に `.`を指定するとカレントディレクトリを指定できます
-> ```bash
-> $ cdd add dls .
-> ```
-> - `${path}` 部分はスペースを含まなければ " " で囲む必要はありません
-> ```bash
-> $ cdd add dls /Users/me/Downloads
-> ```
-> - `${path}` 部分に${HOME}を指定する場合は ' 'で囲みシェル展開を防ぎます
-> ```bash
-> $ cdd add docs '${HOME}/Documents'
-> ```
+#### `remove` / `rm`
 
-#### `remove` `rm`
-既存の Aliasを削除します。
-フォーマットは `$ cdd remove ${name}` 形式です。
+Remove an alias with `$ cdd remove <name>`. You can also use a `list` index.
+
 ```bash
 $ cdd remove dls
 ```
-> Note: `{name}` 部分は `list` コマンドで表示される番号でも指定可能)
 
-#### `up`
-`list` 表示における指定 Aliasの順序を引き上げます。
-フォーマットは `$ cdd up ${name}` 形式です。
+#### `up` / `down`
+
+Move an alias up or down in the list. Defaults to one step; pass a second argument for the distance.
+
 ```bash
 $ cdd up dls
-
-# 2行分 up
 $ cdd up dls 2
-```
-
-#### `down`
-`list` 表示における指定 Aliasの順序を引き下げます。
-フォーマットは `$ cdd down ${name}` 形式です。
-```bash
-$ cdd down dls
-
-# 2行分 down
 $ cdd down dls 2
 ```
 
 #### `edit`
-設定ファイルを既定のエディタで開きます。
-後述の `config` ファイルを編集する際のショートカットとして利用できます。
+
+Open the config file in your default editor (not supported on Windows yet).
+
 ```bash
 $ cdd edit
 ```
 
-## config
-`add`コマンド等で設定した Aliasは `${HOME}/.cdd.yaml` ファイルに保存されます。これを直接変更して Aliasの一覧を編集することも可能です。
-- `edit` コマンドで 編集することも可能です。(現状 win環境未対応)
+## Config
+
+Aliases are stored in `${HOME}/.cdd.yaml`. You can edit this file directly.
+
 ```yaml
 - name: home
   dir: ${HOME}
@@ -152,4 +144,4 @@ $ cdd edit
   dir: ${HOME}/Documents
 ```
 
-> Note: `dir` 部分には 絶対パスを指定しますが、例外的に `${HOME}`からの相対パスを指定することも可能です。その他の環境変数は読み込みません。
+`dir` should be an absolute path. As an exception, paths relative to `${HOME}` are also accepted. Other environment variables are not expanded.
