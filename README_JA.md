@@ -37,6 +37,15 @@ echo 'eval "$(cdd init zsh)"' >> ~/.zshrc
 
 bash の場合は `cdd init bash` と `~/.bashrc` を使います。
 
+zsh でエイリアス名を補完するには、`compinit` のあとに `eval` します。
+
+```bash
+autoload -Uz compinit && compinit
+eval "$(cdd init zsh)"
+```
+
+bash は追加の設定なしで `cdd <Tab>` がエイリアス名とサブコマンドを出します。
+
 ## 使い方
 
 `$ cdd {command}` で各種コマンドを実行します。引数なしの `cdd` はヘルプを表示します。
@@ -80,7 +89,7 @@ $ cd "$(cdd print docs)"
 
 #### `init`
 
-bash / zsh 向けのシェル連携コードを stdout に出力します。stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか確認します。
+bash / zsh 向けのシェル連携コードを stdout に出力します。ジャンプ用の関数に加え、エイリアス名とサブコマンドの補完も登録します。`remove` / `up` / `down` / `print` の次の引数はエイリアス名、`init` の次は `bash` / `zsh`、`add` のパス引数はファイル名です。stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
 
 ```bash
 $ eval "$(cdd init zsh)"

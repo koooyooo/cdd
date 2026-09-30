@@ -37,14 +37,14 @@ echo 'eval "$(cdd init zsh)"' >> ~/.zshrc
 
 For bash, use `cdd init bash` and `~/.bashrc`.
 
-zsh でエイリアス名を補完するには、`compinit` のあとに `eval` します。
+To complete alias names in zsh, run `eval` after `compinit`:
 
 ```bash
 autoload -Uz compinit && compinit
 eval "$(cdd init zsh)"
 ```
 
-bash は追加の設定なしで `cdd <Tab>` がエイリアス名とサブコマンドを出します。
+Bash completes alias names and subcommands on `cdd <Tab>` with no extra setup.
 
 ## Usage
 
@@ -88,10 +88,9 @@ $ cd "$(cdd print docs)"
 ```
 
 #### `init`
-bash / zsh 向けのシェル連携コードを stdout に出力します。
-ジャンプ用の関数に加え、エイリアス名とサブコマンドの補完も登録します。
-`remove` / `up` / `down` / `print` の次の引数はエイリアス名、`init` の次は `bash` / `zsh`、`add` のパス引数はファイル名です。
-stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
+
+Print bash/zsh shell integration to stdout. Besides the jump function, it registers completion for alias names and subcommands. The argument after `remove`, `up`, `down`, and `print` completes as an alias name; the argument after `init` completes as `bash` or `zsh`; the path argument to `add` completes as a filename. When stdout is a TTY, you are prompted (Y/n) to copy the `eval "$(cdd init …)"` line to the clipboard for pasting into your rc file.
+
 ```bash
 $ eval "$(cdd init zsh)"
 $ cdd init zsh
