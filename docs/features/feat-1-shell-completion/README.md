@@ -8,7 +8,7 @@
 
 - `eval "$(cdd init bash)"` または `eval "$(cdd init zsh)"` のあと、`cdd <Tab>` でエイリアス名とサブコマンドが出る
 - エイリアス名は `list` と同じ順。番号は候補にしない
-- 次のサブコマンド（と短縮名）の直後の引数はエイリアス名: `remove` `rm` `delete` `del` `up` `down` `print` `p`
+- 次のサブコマンド（と短縮名）の直後の引数はエイリアス名: `remove` `rm` `delete` `del` `move-up` `up` `move-down` `down` `print` `p`
 - `init` の次の引数は `bash` と `zsh`
 - `add` `a` のパス引数（3番目の語）はファイル名補完。新しいエイリアス名の位置では補完しない
 - 第1引数以外で、上記に当てはまらない位置ではファイル名を出さない

@@ -73,7 +73,7 @@ $ pwd
 | `list` | — | 登録済みエイリアスを一覧表示 |
 | `add` | — | エイリアスを追加 |
 | `remove` | `rm` | エイリアスを削除 |
-| `up` / `down` | — | 一覧上の並び順を変更 |
+| `move-up` / `move-down` | `up` / `down` | 一覧上の並び順を変更 |
 | `edit` | — | 設定ファイルをエディタで開く |
 
 #### `print` / `p`
@@ -89,7 +89,7 @@ $ cd "$(cdd print docs)"
 
 #### `init`
 
-bash / zsh 向けのシェル連携コードを stdout に出力します。ジャンプ用の関数に加え、エイリアス名とサブコマンドの補完も登録します。`remove` / `up` / `down` / `print` の次の引数はエイリアス名、`init` の次は `bash` / `zsh`、`add` のパス引数はファイル名です。stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
+bash / zsh 向けのシェル連携コードを stdout に出力します。ジャンプ用の関数に加え、エイリアス名とサブコマンドの補完も登録します。`remove` / `move-up` / `move-down` / `print` の次の引数はエイリアス名、`init` の次は `bash` / `zsh`、`add` のパス引数はファイル名です。stdout が TTY のときは、rc に貼る用の `eval "$(cdd init …)"` 一行をクリップボードへコピーするか Y/n で確認します。
 
 ```bash
 $ eval "$(cdd init zsh)"
@@ -124,14 +124,14 @@ $ cdd add docs '${HOME}/Documents'       # ${HOME} はクォートしてシェ�
 $ cdd remove dls
 ```
 
-#### `up` / `down`
+#### `move-up` / `move-down`
 
-`list` 上の並び順を変更します。省略時は 1 行、第 2 引数で移動量を指定できます。
+`list` 上の並び順を変更します。省略時は 1 行、第 2 引数で移動量を指定できます。`up` / `down` は互換エイリアスとして残しています。
 
 ```bash
-$ cdd up dls
-$ cdd up dls 2
-$ cdd down dls 2
+$ cdd move-up dls
+$ cdd move-up dls 2
+$ cdd move-down dls 2
 ```
 
 #### `edit`

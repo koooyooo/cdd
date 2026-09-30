@@ -11,12 +11,13 @@ import (
 	"strconv"
 )
 
-// downCmd represents the down command
+// downCmd represents the move-down command (alias: down)
 var downCmd = &cobra.Command{
-	Use:     "down name [amount]",
+	Use:     "move-down name [amount]",
+	Aliases: []string{"down"},
 	Short:   "make specified alias to be lower on the list",
 	Long:    ``,
-	Example: "$ cdd down github\n$ cdd down github 2",
+	Example: "$ cdd move-down github\n$ cdd move-down github 2\n$ cdd down github",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 || len(args) > 2 {
 			fmt.Println(cmd.UsageString())

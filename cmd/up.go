@@ -11,12 +11,13 @@ import (
 	"strconv"
 )
 
-// upCmd represents the up command
+// upCmd represents the move-up command (alias: up)
 var upCmd = &cobra.Command{
-	Use:     "up name [amount]",
+	Use:     "move-up name [amount]",
+	Aliases: []string{"up"},
 	Short:   "make specified alias to be upper on the list",
 	Long:    ``,
-	Example: "$ cdd up github\n$ cdd up github 2",
+	Example: "$ cdd move-up github\n$ cdd move-up github 2\n$ cdd up github",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 || len(args) > 2 {
 			fmt.Println(cmd.UsageString())
