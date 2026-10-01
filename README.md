@@ -108,12 +108,13 @@ $ cdd list
 
 #### `add`
 
-Register an alias with `$ cdd add <name> <path>`. `<path>` may be absolute or relative.
+Register an alias with `$ cdd add <path>` (alias = last directory name), `$ cdd add <name> <path>`, or `$ cdd add <path> -a <name>`. `<path>` may be absolute or relative.
 
 ```bash
+$ cdd add /Users/me/Downloads           # alias = Downloads
+$ cdd add . -a work                     # current directory with explicit alias
 $ cdd add dls /Users/me/Downloads
-$ cdd add dls .                          # current directory
-$ cdd add docs '${HOME}/Documents'       # quote ${HOME} to prevent shell expansion
+$ cdd add docs '${HOME}/Documents'      # quote ${HOME} to prevent shell expansion
 ```
 
 #### `remove` / `rm`
