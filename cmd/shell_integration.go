@@ -94,6 +94,9 @@ _cdd_complete() {
       init)
         _cdd_add_matches "${cur}" %s
         ;;
+      %s)
+        _cdd_files "${cur}"
+        ;;
     esac
     return
   fi
@@ -131,7 +134,7 @@ _cdd() {
       compadd -- %s
       ;;
     %s)
-      if (( CURRENT == 4 )); then
+      if (( CURRENT == 3 || CURRENT == 4 )); then
         _files
       fi
       ;;
@@ -153,6 +156,7 @@ func shellIntegration(shell string) (string, error) {
 			shellQuoteWords(completionCommandWords),
 			strings.Join(aliasArgWords, "|"),
 			shellQuoteWords(initShellWords),
+			strings.Join(pathArgWords, "|"),
 			strings.Join(pathArgWords, "|"),
 		)
 	case "zsh":

@@ -108,12 +108,13 @@ $ cdd list
 
 #### `add`
 
-`$ cdd add <name> <path>` でエイリアスを登録します。`<path>` には絶対パス・相対パスのどちらも使えます。
+`$ cdd add <path>`（alias は末尾ディレクトリ名）、`$ cdd add <name> <path>`、または `$ cdd add <path> -a <name>` で登録します。`<path>` には絶対パス・相対パスのどちらも使えます。
 
 ```bash
+$ cdd add /Users/me/Downloads           # alias = Downloads
+$ cdd add . -a work                     # カレントディレクトリを明示 alias で
 $ cdd add dls /Users/me/Downloads
-$ cdd add dls .                          # カレントディレクトリ
-$ cdd add docs '${HOME}/Documents'       # ${HOME} はクォートしてシェル展開を防ぐ
+$ cdd add docs '${HOME}/Documents'      # ${HOME} はクォートしてシェル展開を防ぐ
 ```
 
 #### `remove` / `rm`

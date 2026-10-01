@@ -110,13 +110,13 @@ func TestBashCompletionCandidates(t *testing.T) {
 		assert.Equal(t, []string{"bash"}, got)
 	})
 
-	t.Run("add path", func(t *testing.T) {
+	t.Run("add path second arg", func(t *testing.T) {
 		got := candidates(t, "COMP_WORDS=(cdd add myname '')\nCOMP_CWORD=3")
 		assert.Contains(t, got, "note.txt")
 	})
 
-	t.Run("add name is not a path", func(t *testing.T) {
+	t.Run("add path first arg", func(t *testing.T) {
 		got := candidates(t, "COMP_WORDS=(cdd add '')\nCOMP_CWORD=2")
-		assert.Empty(t, got)
+		assert.Contains(t, got, "note.txt")
 	})
 }
